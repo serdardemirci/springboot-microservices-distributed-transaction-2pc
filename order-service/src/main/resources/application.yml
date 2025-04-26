@@ -2,7 +2,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://localhost:3306/distibuted_txn?useSSL=false
+    url: jdbc:mysql://localhost:3306/distibuted_txn?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
   jpa:
@@ -13,10 +13,13 @@ spring:
     port: 5672
     username: guest
     password: guest
+  cloud:
+    compatibility-verifier:
+      enabled: false
 
 server:
   port: 8081
-  
+
 eureka:
   client:
     service-url:
