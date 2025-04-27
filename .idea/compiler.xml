@@ -7,12 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="product-service" />
         <module name="discovery-server" />
+        <module name="init-service" />
+        <module name="transactional-core" />
+        <module name="product-service" />
         <module name="order-service" />
         <module name="account-service" />
         <module name="transaction-server" />
-        <module name="transactional-core" />
       </profile>
     </annotationProcessing>
   </component>

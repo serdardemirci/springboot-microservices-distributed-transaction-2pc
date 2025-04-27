@@ -1,24 +1,9 @@
 spring:
   application:
-    name: product-service
-  datasource:
-    url: jdbc:mysql://localhost:3306/distributed_txn?allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: root
-  jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
-    hibernate.ddl-auto: update
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-  cloud:
-    compatibility-verifier:
-      enabled: false
+    name: init-service
 
 server:
-  port: 8082
+  port: 9090
 
 eureka:
   client:

@@ -1,28 +1,25 @@
 package io.learning.account.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import io.learning.account.devil.AccountNotFoundException;
+import io.learning.account.domain.Account;
+import io.learning.account.event.AccountTransactionEvent;
+import io.learning.account.repository.AccountRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.learning.account.devil.AccountNotFoundException;
-import io.learning.account.domain.Account;
-import io.learning.account.event.AccountTransactionEvent;
-import io.learning.account.repository.AccountRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+    private final AccountRepository accountRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Account createAccount(Account account) {
@@ -41,7 +38,7 @@ public class AccountService {
 
     @Async
     @Transactional
-    public void withdrawl(Long accountId, int amount, String transactionId) {
+    public void withdrawal(Long accountId, int amount, String transactionId) {
         transfer(accountId, amount * (-1), transactionId);
     }
 
@@ -50,8 +47,10 @@ public class AccountService {
         Optional<Account> accountOpt = accountRepository.findById(accountId);
         accountOpt.ifPresent(account -> {
             account.setBalance(account.getBalance() + amount);
-            eventPublisher.publishEvent(new AccountTransactionEvent(transactionId, account));
+
             accountRepository.save(account);
+
+            eventPublisher.publishEvent(new AccountTransactionEvent(transactionId, account));
         });
     }
 }

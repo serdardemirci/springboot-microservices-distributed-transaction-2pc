@@ -1,2 +1,2 @@
-CREATE DATABASE IF NOT EXISTS distibuted_txn;
-USE distibuted_txn;
+CREATE DATABASE IF NOT EXISTS distributed_txn;
+USE distributed_txn;

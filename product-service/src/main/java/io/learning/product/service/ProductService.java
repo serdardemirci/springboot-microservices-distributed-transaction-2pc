@@ -1,30 +1,27 @@
 package io.learning.product.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import io.learning.core.domain.Product;
+import io.learning.product.devil.ProductProcessingException;
+import io.learning.product.event.ProductTransactionEvent;
+import io.learning.product.mapper.ProductMapper;
+import io.learning.product.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.learning.core.domain.Product;
-import io.learning.product.devil.ProductProcessingException;
-import io.learning.product.event.ProductTransactionEvent;
-import io.learning.product.mapper.ProductMapper;
-import io.learning.product.repository.ProductRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+    private final ProductRepository productRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Product createProduct(Product product) {
@@ -44,8 +41,10 @@ public class ProductService {
                 throw new ProductProcessingException("Insufficient product quantity. Available: " + prod.getQuantity() + ", Demand: " + quantity);
             }
             prod.setQuantity(prod.getQuantity() - quantity);
-            eventPublisher.publishEvent(new ProductTransactionEvent(transactionId, prod));
+
             productRepository.save(ProductMapper.map(prod));
+
+            eventPublisher.publishEvent(new ProductTransactionEvent(transactionId, prod));
         });
     }
 

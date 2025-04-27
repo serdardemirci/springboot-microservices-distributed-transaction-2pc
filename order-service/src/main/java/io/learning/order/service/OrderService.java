@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Slf4j
@@ -25,7 +24,6 @@ public class OrderService {
 
     private static final String TXN_ID_HEADER = "X-Txn-ID";
 
-    private final Random random = new Random();
     private final RestTemplate restTemplate;
     private final OrderRepository orderRepository;
     private final ApplicationEventPublisher eventPublisher;
@@ -73,7 +71,7 @@ public class OrderService {
 
     protected Account withdraw(DistributedTransaction transaction, Long accountId, int amount) {
         HttpEntity<Void> requestEntity = new HttpEntity<>(prepareHeaders(transaction.getId()));
-        return restTemplate.exchange("http://account-service/accounts/{id}/withdrawl/{amount}", HttpMethod.PUT, requestEntity, Account.class, accountId, amount).getBody();
+        return restTemplate.exchange("http://account-service/accounts/{id}/withdrawal/{amount}", HttpMethod.PUT, requestEntity, Account.class, accountId, amount).getBody();
     }
 
     protected void addTransactionParticipant(DistributedTransaction transaction, String serviceId, DistributedTransactionStatus status) {

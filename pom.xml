@@ -11,19 +11,6 @@
 
     <name>spring-boot-distributed-transaction</name>
 
-    <developers>
-        <developer>
-            <id>anil-jaglan</id>
-            <name>Anil Jaglan</name>
-            <email>aniljgln@gmail.com</email>
-            <timezone>Asia/Kolkata</timezone>
-        </developer>
-    </developers>
-    <contributors>
-        <contributor>
-            <name>Anil Jaglan</name>
-        </contributor>
-    </contributors>
 
     <properties>
         <java.version>21</java.version>
@@ -31,13 +18,12 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <springboot.version>3.4.5</springboot.version>
-        <springcloud.version>2024.0.1</springcloud.version>
+        <springboot.version>3.2.5</springboot.version>
+        <springcloud.version>2023.0.5</springcloud.version>
         <springcloud.eureka.version>4.2.1</springcloud.eureka.version>
         <micrometer.version>1.5.0-M3</micrometer.version>
         <springdoc.openapi.version>1.8.0</springdoc.openapi.version>
         <mysqlconnector.version>9.2.0</mysqlconnector.version>
-        <persistence.version>3.1.0</persistence.version>
         <lombok.version>1.18.38</lombok.version>
     </properties>
 
@@ -48,6 +34,7 @@
         <module>order-service</module>
         <module>account-service</module>
         <module>product-service</module>
+        <module>init-service</module>
     </modules>
 
 
@@ -57,6 +44,12 @@
                 <groupId>io.learning</groupId>
                 <artifactId>transactional-core</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -71,16 +64,6 @@
                 <version>${springcloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-                <version>${springcloud.eureka.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                <version>${springcloud.eureka.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -101,11 +84,6 @@
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysqlconnector.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.persistence</groupId>
-                <artifactId>jakarta.persistence-api</artifactId>
-                <version>${persistence.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -131,4 +109,12 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
