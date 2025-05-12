@@ -1,23 +1,14 @@
 package io.learning.account.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.learning.account.domain.Account;
 import io.learning.account.service.AccountService;
 import io.learning.account.service.EventBus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * 
  * Exposes REST API Interface for interacting with AccountService.
  *
  * @author Anil Jaglan
@@ -26,13 +17,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/accounts")
 @Tag(name = "Accounts")
+@RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private EventBus eventBus;
+    private final AccountService accountService;
+    private final EventBus eventBus;
 
     @PostMapping
     @Operation(summary = "Create a new account")
@@ -53,10 +42,10 @@ public class AccountController {
         return eventBus.receiveEvent(transactionId).getAccount();
     }
 
-    @PutMapping("/{id}/withdrawl/{amount}")
+    @PutMapping("/{id}/withdrawal/{amount}")
     @Operation(summary = "Withdraw money from customer account")
-    public Account withdrawl(@PathVariable("id") Long accountId, @PathVariable("amount") int amount, @RequestHeader("X-Txn-ID") String transactionId) {
-        accountService.withdrawl(accountId, amount, transactionId);
+    public Account withdrawal(@PathVariable("id") Long accountId, @PathVariable("amount") int amount, @RequestHeader("X-Txn-ID") String transactionId) {
+        accountService.withdrawal(accountId, amount, transactionId);
         return eventBus.receiveEvent(transactionId).getAccount();
     }
 

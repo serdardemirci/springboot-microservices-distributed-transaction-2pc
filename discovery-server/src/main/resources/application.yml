@@ -8,10 +8,10 @@ eureka:
     enabled: true
   instance:
     hostname: localhost
-    appname: ${spring.application.name}
-    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   client:
     registerWithEureka: false
     fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     eviction-interval-timer-in-ms: 30000

@@ -1,24 +1,15 @@
 package io.learning.product.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.learning.core.domain.Product;
 import io.learning.product.devil.ProductNotFoundException;
 import io.learning.product.service.EventBus;
 import io.learning.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * 
  * Exposes REST API Interface for interacting with ProductService.
  *
  * @author Anil Jaglan
@@ -27,13 +18,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/products")
 @Tag(name = "Products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private EventBus eventBus;
+    private final ProductService productService;
+    private final EventBus eventBus;
 
     @PostMapping
     @Operation(summary = "Create a new product")

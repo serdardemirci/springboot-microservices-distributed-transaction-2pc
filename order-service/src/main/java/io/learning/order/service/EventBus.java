@@ -1,26 +1,24 @@
 package io.learning.order.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.stereotype.Component;
-
 import io.learning.core.domain.DistributedTransaction;
 import io.learning.order.event.OrderTransactionEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
 public class EventBus {
 
-    private List<DistributedTransaction> transactions;
-
-    private List<OrderTransactionEvent> events;
+    private final List<DistributedTransaction> transactions;
+    private final List<OrderTransactionEvent> events;
 
     public EventBus() {
-        this.transactions = new ArrayList<DistributedTransaction>();
-        this.events = new ArrayList<OrderTransactionEvent>();
+        this.transactions = new ArrayList<>();
+        this.events = new ArrayList<>();
     }
 
     public void sendTransaction(DistributedTransaction transaction) {

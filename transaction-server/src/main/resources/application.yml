@@ -6,6 +6,9 @@ spring:
     port: 5672
     username: guest
     password: guest
+  cloud:
+    compatibility-verifier:
+      enabled: false
 
 server:
   port: 8888
@@ -17,7 +20,7 @@ eureka:
   instance:
     appname: ${spring.application.name}
     prefer-ip-address: true
-      
+
 springdoc:
   swagger-ui.path: /swagger-ui.html
 

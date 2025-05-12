@@ -1,22 +1,21 @@
 package io.learning.account.listener;
 
-import static io.learning.core.domain.DistributedTransactionStatus.CONFIRMED;
-import static io.learning.core.domain.DistributedTransactionStatus.TO_ROLLBACK;
-
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
-import org.springframework.web.client.RestTemplate;
-
 import io.learning.account.devil.AccountProcessingException;
 import io.learning.account.event.AccountTransactionEvent;
 import io.learning.account.service.EventBus;
 import io.learning.core.domain.DistributedTransaction;
 import io.learning.core.eventlistener.TransactionListener;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.TimeUnit;
+
+import static io.learning.core.domain.DistributedTransactionStatus.CONFIRMED;
+import static io.learning.core.domain.DistributedTransactionStatus.TO_ROLLBACK;
 
 /**
  * Class to handle transactional events for {@link AccountTransactionEvent}
@@ -27,13 +26,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class AccountTransactionListener implements TransactionListener<AccountTransactionEvent> {
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private EventBus eventBus;
+    private final RestTemplate restTemplate;
+    private final EventBus eventBus;
 
     @Override
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)

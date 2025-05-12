@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     private Long id;
-
     private Long customerId;
-
     private int balance;
 
 }
